@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVDD0u7e8v-c5tSBajOBoWoGNbdhWBCL_XGK11LJ-pCy8zJ-HPI_eFrVdg8pkcXzbu/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnfPzdg4b4fv7u85HmXUcmLc1bc5gjLMQ2-xOwN__bDfyzhbHqDMC6Mt91-WZcJngC/exec';
 
 let cameraStream = null;
 let facialImageData = null;
