@@ -1,0 +1,600 @@
+/* ============================================
+   VARIÁVEIS E ESTILOS GLOBAIS
+   ============================================ */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --light-bg: #f3f4f6;
+    --border-color: #d1d5db;
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ============================================
+   CONTAINER E LAYOUT
+   ============================================ */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.logo-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.tagline {
+    font-size: 14px;
+    opacity: 0.95;
+    letter-spacing: 1px;
+}
+
+.company-info {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px 20px;
+    border-radius: var(--radius);
+    backdrop-filter: blur(10px);
+    min-width: 250px;
+}
+
+.company-info p {
+    margin: 5px 0;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.main-content {
+    padding: 40px 20px;
+    min-height: 500px;
+}
+
+/* ============================================
+   STEPS
+   ============================================ */
+.step {
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step h2 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 24px;
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 15px;
+}
+
+/* ============================================
+   FORMULÁRIO
+   ============================================ */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ============================================
+   BOTÕES
+   ============================================ */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--light-bg);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.button-group .btn {
+    flex: 1;
+    max-width: 300px;
+}
+
+/* ============================================
+   BARRA DE PROGRESSO
+   ============================================ */
+.progress-bar {
+    display: flex;
+    background: white;
+    padding: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-top: 2px solid var(--light-bg);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.progress-step {
+    flex: 1;
+    min-width: 85px;
+    padding: 12px 16px;
+    text-align: center;
+    border-radius: 6px;
+    background: var(--light-bg);
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+}
+
+.progress-step:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.progress-step:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   CONTRATO
+   ============================================ */
+.contract-preview {
+    background: var(--light-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.contract-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.contract-preview::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+.contract-preview::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.contract-preview::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+#contractContent {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+#contractContent h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+#contractContent p {
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+/* ============================================
+   ASSINATURA
+   ============================================ */
+.signature-container {
+    margin-bottom: 30px;
+}
+
+.signature-container p {
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+#signatureCanvas {
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    background: white;
+    cursor: crosshair;
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+    margin-bottom: 15px;
+}
+
+.signature-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* ============================================
+   RECONHECIMENTO FACIAL
+   ============================================ */
+.facial-recognition-container {
+    text-align: center;
+}
+
+.facial-recognition-container p {
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.video-container {
+    background: var(--light-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#video,
+#canvas {
+    border-radius: var(--radius);
+    background: black;
+}
+
+#video {
+    max-width: 100%;
+    height: auto;
+}
+
+.status-message {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    display: none;
+}
+
+.status-message.success {
+    background: #d1fae5;
+    color: #065f46;
+    display: block;
+}
+
+.status-message.error {
+    background: #fee2e2;
+    color: #7f1d1d;
+    display: block;
+}
+
+.status-message.loading {
+    background: #dbeafe;
+    color: #0c2d6b;
+    display: block;
+}
+
+/* ============================================
+   CONFIRMAÇÃO
+   ============================================ */
+.confirmation-container {
+    margin-bottom: 30px;
+}
+
+.info-box {
+    padding: 18px 24px;
+    border-radius: var(--radius);
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-left: 5px solid;
+    background: #f9fafb;
+}
+
+.info-box.success {
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+    color: #065f46;
+    border-color: var(--success-color);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+    background: var(--light-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+}
+
+.preview-item {
+    background: white;
+    padding: 18px;
+    border-radius: var(--radius);
+    border-left: 5px solid var(--primary-color);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.preview-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.preview-item strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.preview-item span {
+    color: var(--text-dark);
+    word-break: break-word;
+    font-weight: 500;
+}
+
+/* ============================================
+   SUCESSO
+   ============================================ */
+.success-box {
+    text-align: center;
+    padding: 60px 30px;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: var(--radius);
+    border: 2px solid var(--success-color);
+}
+
+.success-box h2 {
+    color: var(--success-color);
+    border: none;
+    padding: 0;
+    margin-bottom: 15px;
+    font-size: 32px;
+}
+
+.success-box p {
+    color: #065f46;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.success-box p:first-of-type {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.success-box .btn {
+    margin-top: 20px;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 768px) {
+    .container {
+        border-radius: 0;
+    }
+
+    .header {
+        padding: 30px 15px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .main-content {
+        padding: 20px 15px;
+    }
+
+    .step h2 {
+        font-size: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group .btn {
+        max-width: 100%;
+    }
+
+    #signatureCanvas {
+        max-width: 100%;
+        height: 150px;
+    }
+
+    #video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .progress-bar {
+        gap: 5px;
+    }
+
+    .progress-step {
+        min-width: 60px;
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .preview-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 20px 10px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    .main-content {
+        padding: 15px 10px;
+        min-height: 400px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px; /* Previne zoom em iOS */
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .video-container {
+        padding: 10px;
+    }
+
+    #video {
+        width: 100%;
+        height: auto;
+    }
+}
