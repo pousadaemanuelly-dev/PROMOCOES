@@ -8,11 +8,52 @@
     <style>
         * { margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; }
-        #status { padding: 20px; text-align: center; font-size: 18px; margin-top: 50px; }
+        
+        #status-container {
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        #spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0078d4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #status {
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        #status.hidden {
+            display: none;
+        }
+        
+        #spinner.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div id="status">Carregando...</div>
+    <div id="status-container">
+        <div id="spinner"></div>
+        <div id="status">Carregando...</div>
+    </div>
     <canvas id="canvas" style="display:none;"></canvas>
     <script src="script-novo.js"></script>
 </body>
