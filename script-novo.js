@@ -135,66 +135,46 @@ function stopCamera(video) {
     if (video) video.remove();
 }
 
-// ─── GEOLOCALIZAÇÃO ─────────────────────────────────────────────────────────
+// ─── GEOLOCALIZAÇÃO (SEM PEDIR PERMISSÃO - USA IP) ──────────────────────
 
 function getLocation() {
     return new Promise(resolve => {
-        if (!navigator.geolocation) { 
-            console.warn('⚠️ Geolocalização não disponível no navegador');
-            userLocation = { 
-                latitude: null, 
-                longitude: null, 
-                accuracy: null,
-                timestamp: new Date().toLocaleString('pt-BR'),
-                mapLink: '',
-                source: 'unavailable'
-            };
-            resolve(null); 
-            return; 
-        }
+        console.log('🔄 Detectando localização pelo IP...');
         
-        console.log('🔄 Solicitando localização do usuário...');
-        
-        // Opções com timeout maior para GitHub Pages
-        const options = {
-            timeout: 15000,  // 15 segundos (aumentado)
-            enableHighAccuracy: true,  // Solicitar GPS de alta precisão
-            maximumAge: 0  // Não usar cache
-        };
-        
-        navigator.geolocation.getCurrentPosition(
-            pos => {
-                console.log('✅ Localização obtida com sucesso');
+        // ✅ NOVO: Usar API de IP para geolocalização (SEM PEDIR PERMISSÃO)
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ Localização obtida pelo IP');
                 userLocation = {
-                    latitude: pos.coords.latitude,
-                    longitude: pos.coords.longitude,
-                    accuracy: Math.round(pos.coords.accuracy),
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                    accuracy: data.org ? 10000 : null,  // IP é menos preciso (±10km)
                     timestamp: new Date().toLocaleString('pt-BR'),
-                    mapLink: `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`,
-                    source: 'gps'
+                    mapLink: `https://maps.google.com/?q=${data.latitude},${data.longitude}`,
+                    source: 'ip',  // Identificar que é por IP
+                    city: data.city,
+                    region: data.region,
+                    country: data.country_name
                 };
-                console.log('📍 Coordenadas:', userLocation);
+                console.log('📍 Localização por IP:', userLocation);
                 resolve(userLocation);
-            },
-            (error) => {
-                console.warn('⚠️ Erro ao obter localização:', error.code, error.message);
-                
-                // ✅ NOVO: Não usar fallback fake, apenas null
+            })
+            .catch(error => {
+                console.warn('⚠️ Erro ao obter localização pelo IP:', error.message);
+                // Se API falhar, continua sem localização (null)
                 userLocation = {
-                    latitude: null, 
+                    latitude: null,
                     longitude: null,
                     accuracy: null,
                     timestamp: new Date().toLocaleString('pt-BR'),
                     mapLink: '',
-                    source: 'denied',  // Usuário negou ou erro
-                    errorCode: error.code,
+                    source: 'error',
                     errorMessage: error.message
                 };
-                console.log('⏭️ Localização não disponível (será pulada no Drive)');
+                console.log('⏭️ Sem localização disponível');
                 resolve(userLocation);
-            },
-            options
-        );
+            });
     });
 }
 
@@ -407,9 +387,31 @@ function testarLocalizacao() {
 
 // Disponível para chamar no console: testarLocalizacao()
 
-// ─── STATUS ──────────────────────────────────────────────────────────────────
+// ─── STATUS COM SPINNER ──────────────────────────────────────────────────────
 
 function showStatus(message) {
-    const el = document.getElementById('status');
-    if (el) el.textContent = message;
+    const statusEl = document.getElementById('status');
+    const spinnerEl = document.getElementById('spinner');
+    
+    if (statusEl) {
+        statusEl.textContent = message;
+        statusEl.classList.remove('hidden');
+    }
+    
+    if (spinnerEl) {
+        spinnerEl.classList.remove('hidden');
+    }
+}
+
+function hideStatus() {
+    const statusEl = document.getElementById('status');
+    const spinnerEl = document.getElementById('spinner');
+    
+    if (statusEl) {
+        statusEl.classList.add('hidden');
+    }
+    
+    if (spinnerEl) {
+        spinnerEl.classList.add('hidden');
+    }
 }
